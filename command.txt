@@ -1,0 +1,28 @@
+
+gcloud config set compute/zone us-central1-f
+gcloud container clusters create "cassandra"
+
+
+wget -O cassandra-peer-service.yml http://tinyurl.com/yyxnephy
+wget -O cassandra-service.yml http://tinyurl.com/y65czz8e
+wget -O cassandra-replication-controller.yml http://tinyurl.com/y2crfsl8
+
+cd ~/last
+kubectl create -f cassandra-peer-service.yml
+kubectl create -f cassandra-service.yml
+kubectl create -f cassandra-replication-controller.yml
+kubectl describe pods podname
+kubectl get pods
+
+
+docker build -t gcr.io/test1-228821/last:v1 .
+docker push gcr.io/test1-228821/last:v1
+
+kubectl run last1 --image=gcr.io/test1-228821/last:v1 --port 8080
+kubectl logs deployment/last1
+kubectl expose deployment last1 --type=LoadBalancer --port 80 --target-port 8080
+kubectl get services
+
+kubectl scale rc cassandra --replicas=3
+
+gcloud container clusters delete "cassandra"

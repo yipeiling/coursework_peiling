@@ -1,0 +1,6 @@
+
+cassandra-driver
+Flask
+requests
+requests_cache
+passlib
