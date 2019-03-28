@@ -1,4 +1,5 @@
-Introduction
+## Mini Restful Server For Cloud
+# Introduction
 
 The mini Cloud project  developed in Python and Flask with casssandar.It will work on the following aspects of Cloud applications:
 
@@ -9,7 +10,7 @@ The mini Cloud project  developed in Python and Flask with casssandar.It will wo
 5.Implementing user accounts and access management by hash-based authentication
 6. Get the data from external rest API then restore in cassandra. database implementation including data substantial write and delete.
 
-Documentation
+# Documentation
 
 1.Generating image:
 	Dockerfile
@@ -25,7 +26,7 @@ Documentation
 4.App:
 	app.py
 
-Tests
+# Tests
 1.List all data in database
 http://IP address/
 input 
