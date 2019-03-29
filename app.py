@@ -12,10 +12,10 @@ from passlib.hash import sha256_crypt
 requests_cache.install_cache('air_api_cache', backend='sqlite', expire_after=36000)
 
 #This connection is for local service
-cluster = Cluster(['127.0.0.1'])
+#cluster = Cluster(['127.0.0.1'])
 
 #This connection is for cloud
-#cluster = Cluster(['cassandra'])
+cluster = Cluster(['cassandra'])
 KEYSPACE = "cloud"
 session = cluster.connect()
 #Create Keyspace it the keyspace is not exists
