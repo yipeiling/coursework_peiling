@@ -4,10 +4,15 @@
 The mini Cloud project  developed in Python and Flask with casssandar.It will work on the following aspects of Cloud applications:
 
 1.The application provides a dynamically generated REST API.REST-based service interface.:Get,Delete,Put and Post
+
 2.The application makes use of https://api.breezometer.com/ as an external REST service to complement its functionality
+
 3.Use of Cassandar database for persisting information.
+
 4.Support for Cassandra scalability, deployment in a container environment and  kubernetes based load balancing.
-5.Implementing user accounts and access management by hash-based authentication
+
+5.Implementing user accounts and access management by hash-based authentication.
+
 6. Get the data from external rest API then restore in cassandra. database implementation including data substantial write and delete.
 
 # Documentation
