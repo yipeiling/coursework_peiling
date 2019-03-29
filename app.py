@@ -12,10 +12,10 @@ from passlib.hash import sha256_crypt
 requests_cache.install_cache('air_api_cache', backend='sqlite', expire_after=36000)
 
 #This connection is for local service
-#cluster = Cluster(['127.0.0.1'])
+cluster = Cluster(['127.0.0.1'])
 
 #This connection is for cloud
-cluster = Cluster(['cassandra'])
+#cluster = Cluster(['cassandra'])
 KEYSPACE = "cloud"
 session = cluster.connect()
 #Create Keyspace it the keyspace is not exists
@@ -35,8 +35,8 @@ def auth_required(f):
     @wraps(f)
     def decorated(arg,arrg):
         auth=request.authorization
-        if auth and (sha256_crypt.encrypt(auth.username) =='535000$AkGjfkT15YBb6kaX$UV7oJHjhC2u3dpg0jj73MVUBROpdax9xu6BgxL2lrN/'):
-            if (sha256_crypt.encrypt(auth.password) =='535000$C9j6qSq1IxFlJWmx$q/JvUQWxhzkszBFO3ORiiDKKEP5l8SFzdLTRjsZFMl1'):
+        if(auth and sha256_crypt.verify(auth.username,'$5$rounds=535000$4ARlC4uUsPS891B1$.Viz1CJRT9DzWQAqcghHOmoyTrqNIUXu9G2.2MdLzA6')):
+            if sha256_crypt.verify(auth.password,'$5$rounds=535000$zntiMtiscaLiEPx8$Cr9GoP83laexyUWNnm7DTn4K5dcmw.dWqrpGj6O9uD6'):
                 return f(arg,arrg)
 
         return Response('could not verify your login',401,{'WWW-Authenticate':'Basic  realm="Login Required"'})
@@ -51,7 +51,9 @@ MY_API_KEY = '002c6c5aa7c94262ba52c4a4632d4522'
 #Getting all data in database ,saving to database and showing it by json
 @app.route('/', methods=['GET'])
 def Hello():
-    if request.authorization and request.authorization.username == '535000$AkGjfkT15YBb6kaX$UV7oJHjhC2u3dpg0jj73MVUBROpdax9xu6BgxL2lrN/'and request.authorization.password =='535000$C9j6qSq1IxFlJWmx$q/JvUQWxhzkszBFO3ORiiDKKEP5l8SFzdLTRjsZFMl1':
+    #if request.authorization and request.authorization.username == '535000$AkGjfkT15YBb6kaX$UV7oJHjhC2u3dpg0jj73MVUBROpdax9xu6BgxL2lrN/'and request.authorization.password =='535000$C9j6qSq1IxFlJWmx$q/JvUQWxhzkszBFO3ORiiDKKEP5l8SFzdLTRjsZFMl1':
+#    if (request.authorization and sha256_crypt.verify(request.authorization.username,'$5$rounds=535000$4ARlC4uUsPS891B1$.Viz1CJRT9DzWQAqcghHOmoyTrqNIUXu9G2.2MdLzA6') and sha256_crypt.verify(request.authorization.password ,'535000$t.KWEGtvsqd.chTy$wDeJbth1x1KWcVaeimnTHwEZZqxPCW5Sr3rgv0uH1wD')):
+    if (request.authorization and sha256_crypt.verify(request.authorization.username, '$5$rounds=535000$4ARlC4uUsPS891B1$.Viz1CJRT9DzWQAqcghHOmoyTrqNIUXu9G2.2MdLzA6')and sha256_crypt.verify(request.authorization.password, '$5$rounds=535000$zntiMtiscaLiEPx8$Cr9GoP83laexyUWNnm7DTn4K5dcmw.dWqrpGj6O9uD6') ):
         my_latitude = request.args.get('lat','51.52369')
         my_longitude = request.args.get('lng','-0.0395857')
         my_start = request.args.get('start','2019-03-23T00:00:00Z')
